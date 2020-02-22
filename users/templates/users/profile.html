@@ -1,0 +1,7 @@
+{% extends 'products/base.html' %}
+{% block body %}
+<div class="container">
+    <h1>{{user.username}}</h1>
+    <img src="{{ user.profilemodel.profile_pic.url }}" class="card" width="150" height="150"/>
+</div>
+{% endblock %}

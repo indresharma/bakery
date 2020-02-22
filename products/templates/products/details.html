@@ -1,0 +1,21 @@
+<html>
+{% extends 'products/base.html' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mt-3">
+            <img class="card" height="300px" width="350px" src="{{ object.prod_image }}">
+        </div>
+
+        <div class="col-md-6 mt-3">
+            <h3>{{object.prod_name}}</h3>
+            <h5>{{object.prod_desc}}</h5>
+            <h5>Rs. {{object.price}}</h5>
+            <a href="{% url 'products:delete' object.id %}" class="btn btn-primary">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+</html>
+

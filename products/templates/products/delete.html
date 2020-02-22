@@ -1,0 +1,11 @@
+{% extends 'products/base.html' %}
+{% block body %}
+<div class="container mt-4">
+    <form method="POST">
+        {% csrf_token %}
+        <h1>{{ item.prod_name }}</h1>
+        <button type="submit">Delete</button>
+    </form>
+</div>
+
+{% endblock %}
