@@ -4,14 +4,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 mt-3">
-            <img class="card" height="300px" width="350px" src="{{ object.prod_image }}">
+            <img class="card" height="300px" width="350px" src="{{ item.prod_image }}">
         </div>
 
         <div class="col-md-6 mt-3">
-            <h3>{{object.prod_name}}</h3>
-            <h5>{{object.prod_desc}}</h5>
-            <h5>Rs. {{object.price}}</h5>
-            <a href="{% url 'products:delete' object.id %}" class="btn btn-primary">Delete</a>
+            <h3>{{item.prod_name}}</h3>
+            <h5>{{item.prod_desc}}</h5>
+            <h5>Rs. {{item.price}}</h5>
+            <a href="{% url 'products:delete' item.id %}" class="btn btn-danger">Delete</a>
+            <form method="POST" action="{% url 'products:favourites' item.id %}">
+                {% csrf_token %}
+                <button class="btn btn-info mt-2" type="submit" value="Submit">Add To Wishlist</button>
+            </form>
         </div>
     </div>
 </div>

@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
-from .models import Product
+from .models import Product, Wishlist
 from .forms import ProductForm
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, DetailView
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def home(request):
     prod_list = Product.objects.all()
@@ -9,22 +12,26 @@ def home(request):
 
 
 def details(request, id):
-    item = Product.objects.get(pk=id)
+    item = Product.objects.get(id=id)
     context = {'item': item}
     return render(request, 'products/details.html', context)
 
-class ProductDetailView(DetailView):
-    model = Product
-    template_name = 'products/details.html'
+@login_required
+def favourites(request, id):
+        item = get_object_or_404(Product, id=id)
+        fav_prod, added_date = Wishlist.objects.get_or_create(fav_prod = item, user = request.user)
+        messages.info(request,'The item was added to your wishlist')
+        return redirect('products:details', id)
+
+@login_required
+def wishlist(request):
+    wished_item = Wishlist.objects.filter(user=request.user)
+    return render(request, 'products/wishlist.html', {'wished_item': wished_item})
 
 
-# def create(request):
-#     form = ProductForm(request.POST)
-#
-#     if form.is_valid():
-#         form.save()
-#         return redirect('products:home')
-#     return render(request, 'products/create.html', {'form': form})
+
+##############################  CRUD Views #####################################
+
 
 class CreateProductView(CreateView):
     model = Product
@@ -46,7 +53,7 @@ def update_prod(request, id):
 
 
 def delete_prod(request,id):
-    item = Product.objects.get(id=id)
+    item = Product.objects.get(pk=id)
 
     if request.method == 'POST':
         item.delete()

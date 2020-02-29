@@ -1,17 +1,14 @@
-<html>
 {% extends 'products/base.html' %}
 {% block body %}
-
-{% for item in prod_list %}
+{% for item in wished_item %}
 <div class="row">
     <div class="col-md-3 offset-md-2 mt-3">
-        <img class="card" height="150px" width="150px" src="{{item.prod_image}}"/>
+        <img class="card" height="150px" width="150px" src="{{item.fav_prod.prod_image}}"/>
     </div>
     <div class="col-md-4 mt-3">
-        <h3>{{ item.prod_name }}</h3>
-        <h5>{{ item.prod_desc}}</h5>
-        <h6>Rs. {{ item.price }}</h6>
-        <h6>Owner: {{ item.username.user }}</h6>
+        <h3>{{ item.fav_prod.prod_name }}</h3>
+        <h5>{{ item.fav_prod.prod_desc}}</h5>
+        <h6>Rs. {{ item.fav_prod.price }}</h6>
     </div>
     <div class="col-md-2 mt-4">
         <a href="{% url 'products:details' item.id %}" class="btn btn-success">Details</a>
@@ -19,5 +16,5 @@
 </div>
 {% endfor %}
 
+
 {% endblock %}
-</html>
