@@ -2,22 +2,25 @@
 {% extends 'products/base.html' %}
 {% block body %}
 
-{% for item in prod_list %}
-<div class="row">
-    <div class="col-md-3 offset-md-2 mt-3">
-        <img class="card" height="150px" width="150px" src="{{item.prod_image}}"/>
-    </div>
-    <div class="col-md-4 mt-3">
-        <h3>{{ item.prod_name }}</h3>
-        <h5>{{ item.prod_desc}}</h5>
-        <h6>Rs. {{ item.price }}</h6>
-        <h6>Owner: {{ item.username.user }}</h6>
-    </div>
-    <div class="col-md-2 mt-4">
-        <a href="{% url 'products:details' item.id %}" class="btn btn-success">Details</a>
+
+<div class="container">
+    <div class="row">
+        {% for item in prod_list %}
+        <div class="col-md-3">
+            <div class="card">
+                <img src="{{item.prod_image}}" class="card-img-top" alt=" ">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.prod_name }}</h5>
+                    <p class="card-text">Rs. {{ item.price }}</p>
+                    <a href="{% url 'products:details' item.slug %}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor%}
     </div>
 </div>
-{% endfor %}
+
 
 {% endblock %}
+
 </html>

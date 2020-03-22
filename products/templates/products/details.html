@@ -11,11 +11,10 @@
             <h3>{{item.prod_name}}</h3>
             <h5>{{item.prod_desc}}</h5>
             <h5>Rs. {{item.price}}</h5>
-            <a href="{% url 'products:delete' item.id %}" class="btn btn-danger">Delete</a>
-            <form method="POST" action="{% url 'products:favourites' item.id %}">
-                {% csrf_token %}
-                <button class="btn btn-info mt-2" type="submit" value="Submit">Add To Wishlist</button>
-            </form>
+            <a href="{% url 'products:delete' item.slug %}" class="btn btn-danger">Delete</a>
+            <a href="{% url 'products:add_to_cart' item.slug %}" class="btn btn-info">Add to Cart</a>
+            <a href="{% url 'products:favourites' item.slug %}" class="btn btn-info">Add To Wishlist</a>
+            <a href="{% url 'products:remove_from_cart' item.slug %}" class="btn btn-info">Remove from Cart</a>
         </div>
     </div>
 </div>

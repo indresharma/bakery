@@ -11,14 +11,12 @@
     <link rel="stylesheet" href="{% static 'products/style.css' %}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-dark mynav text-white" role="navigation" id="navbar">
+<nav class="navbar navbar-expand-lg bg-dark mynav" role="navigation" id="navbar">
       <div class="container">
         <div class="navbar-nav align-items-center">
-          <a class="navbar-brand mynav" href="{% url 'products:home' %}">Bakery</a>
+          <a class="navbar-brand mynav text-white" href="{% url 'products:home' %}">Bakery</a>
         </div>
-        <div class="navbar-nav ml-auto">
-
-
+        <div class="navbar-nav ml-auto text-white">
             <a class="nav-item nav-link" href="{% url 'products:create' %}" class="btn btn-simple">Add Products</a>
             {% if user.is_authenticated %}
 
@@ -37,6 +35,12 @@
     {% if messages %}
     {% for message in messages %}
     <div class="alert alert-{{message.tags}}">{{message}}</div>
+    {% endfor %}
+    {% endif %}
+
+    {% if error %}
+    {% for error in errors %}
+    <div class="alert alert-danger">{{error}}</div>
     {% endfor %}
     {% endif %}
 <div>
