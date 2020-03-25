@@ -1,0 +1,59 @@
+{% extends 'products/base.html' %}
+{% block body %}
+
+<div class="container">
+    <div class="table-responsive-md">
+        <div class="row m-3">
+            <div class="col-md-12">
+                <h5>Order Summary:</h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Item</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Total Item Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- many to many field so used .all -->
+                        {% for ob in order.item.all %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ob.item.prod_name}}</td>
+                            <td>
+                                <a href="{% url 'products:remove_from_cart' ob.item.slug %}"><i
+                                        class="fas fa-minus-circle"></i></a>
+                                {{ob.quantity}}
+                                <a href="{% url 'products:add_to_cart' ob.item.slug %}"><i
+                                        class="fas fa-plus-circle"></i></a>
+                            </td>
+                            <td>{{ob.item.price}}</td>
+                            <td>{{ob.total_item_price}}</a></td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th scope="row" colspan="4">Order Total</th>
+                            <td>{{order.total_price}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5"><a href="{% url 'products:home' %}" class="btn btn-info">Continue
+                                    Shopping</a>
+                                <a href="{% url 'products:checkout' %}" class="btn btn-warning">Checkout</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -30,8 +30,8 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('products:details', kwargs={'slug': self.slug})
 
-    # def get_add_to_cart_url(self):
-    #     return reverse('products:add_to_cart', kwargs={'slug': self.slug})
+    def add_summary(self):
+        return self.prod_desc[:100]+"..."
 
 class Wishlist(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
@@ -52,6 +52,28 @@ class OrderItem(models.Model):
     def __str__(self):
         return f'{self.quantity} of {self.item.prod_name}'
 
+    def total_item_price(self):
+        return self.quantity * self.item.price
+
+
+class BillingAddress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    address = models.CharField(max_length=200)
+    address2 = models.CharField(max_length=200, blank=True, null=True)
+    country = models.CharField(max_length=6)
+    state = models.CharField(max_length=20)
+    zipcode = models.CharField(max_length=6)
+    
+    def __str__(self):
+        return self.user.username
+
+#promo code
+class Coupon(models.Model):
+    coupon = models.CharField(max_length=10)
+    discount = models.IntegerField()
+
+    def __str__(self):
+        return self.coupon
 
 #products after checkout
 class Order(models.Model):
@@ -59,6 +81,22 @@ class Order(models.Model):
     item = models.ManyToManyField(OrderItem)
     ordered = models.BooleanField(default=False)
     ordered_date = models.DateTimeField()
+    billing_address = models.ForeignKey(BillingAddress, on_delete=models.SET_NULL, blank=True, null=True)
+    coupon = models.ForeignKey(Coupon, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
+
+    def total_price(self):
+        total=0
+        for order_item in self.item.all():
+            total+= order_item.total_item_price()
+        return total
+
+    def discounted_price(self):
+        return self.total_price()*(100-self.coupon.discount)/100
+        
+
+
+
+

@@ -11,7 +11,7 @@
         <h6>Rs. {{ item.fav_prod.price }}</h6>
     </div>
     <div class="col-md-2 mt-4">
-        <a href="{% url 'products:details' item.slug %}" class="btn btn-success">Details</a>
+        <a href="{% url 'products:details' item.fav_prod.slug %}" class="btn btn-success">Details</a>
     </div>
 </div>
 {% endfor %}
